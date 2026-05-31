@@ -43,7 +43,6 @@ SCRIPT_DIR=/home/projects/roilab/anam/phD/tokenization_genomes/tokotax
 mkdir -p "$OUT_DIR"
 
 # move logs into run folder once job starts
-cp /proc/self/fd/1 "$OUT_DIR/train_${LSB_JOBID}.out" 2>/dev/null || true
 echo "Training with embedding layer: ${BLOCK}"
 echo "Results -> ${OUT_DIR}"
 
@@ -58,3 +57,7 @@ $PY ${SCRIPT_DIR}/train_baseline.py \
     --lr                ${LR} \
     --adapter_rank      8 \
     --freq_emb_dim      1024
+
+# Rename logs with run name for easy identification
+mv ${BASE}/model_results/train_${LSB_JOBID}.out ${BASE}/model_results/${RUN_NAME}_${LSB_JOBID}.out
+mv ${BASE}/model_results/train_${LSB_JOBID}.err ${BASE}/model_results/${RUN_NAME}_${LSB_JOBID}.err
